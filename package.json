@@ -1,0 +1,23 @@
+{
+  "name": "crypto-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devenkhatri/crypto-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devenkhatri/crypto-bot/issues"
+  },
+  "homepage": "https://github.com/devenkhatri/crypto-bot#readme",
+  "dependencies": {
+    "dot-env": "0.0.1",
+    "node-binance-api": "^0.12.5"
+  }
+}
