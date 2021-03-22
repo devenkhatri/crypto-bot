@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/devenkhatri/crypto-bot#readme",
   "dependencies": {
-    "dot-env": "0.0.1",
+    "axios": "^0.21.1",
+    "ccxt": "^1.43.87",
+    "dotenv": "^8.2.0",
     "node-binance-api": "^0.12.5"
   }
 }
