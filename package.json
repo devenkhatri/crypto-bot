@@ -2,7 +2,6 @@
   "name": "crypto-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "server": "node server/index.js",
     "client": "cd client && npm start",
