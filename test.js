@@ -5,32 +5,34 @@ const axios = require("axios");
 const dashboard = [];
 
 const showDashboard = () => {
-  console.log("**DASHBOARD**", dashboard)
+  console.log("**DASHBOARD**",dashboard)
   let totalPrice = 0;
-  dashboard.map((item) => {
+  dashboard.map((item)=>{
     totalPrice += item.profit;
   })
-  console.log("**TOTAL PROFIT**", totalPrice)
+  console.log("**TOTAL PROFIT**",totalPrice)
 }
 
 const tick = async (config, binanceClient) => {
   const { asset, base, spread, allocation } = config;
   const market = `${asset}/${base}`;
-  const timeslug = new Date();
+  const timeslug = new Date();  
 
   // get balance of base coin
   const balances = await binanceClient.fetchBalance();
-  const baseBalance = balances.free[base];
+  const baseBalance = balances.free[base];  
 
   const fullMarket = await binanceClient.fetchTicker(market);
 
-  console.log(`- ${timeslug} - Base Balance for `, base, baseBalance)
+  console.log(`- ${timeslug} - Base Balance for `,base, baseBalance)
   console.log(`- ${timeslug} - Latest price of ${asset} = ${fullMarket.ask}`)
 
   const openOrders = await binanceClient.fetchOpenOrders(market);
+  console.log(openOrders)
+  if(timeslug) return;
 
-  //if there NO OPEN Order of this pair and if base coin available then create a market buy and limit sell order
-  if (openOrders && openOrders.length <= 0 && baseBalance >= allocation) {
+  //if base coin available then create a market buy and limit sell order
+  if (baseBalance >= allocation) {
     //Send orders
     const buyPrice = allocation / fullMarket.ask; // buy on current market price
     //console.log(`- ${timeslug} - Creating market buy order for '${market}' with ${buyPrice} @ ${fullMarket.ask}`)
@@ -50,10 +52,10 @@ const tick = async (config, binanceClient) => {
           buyQuantity: result.amount,
           sellPrice: sellResult.price,
           sellQuantity: sellResult.amount,
-          profit: (sellResult.price * sellResult.amount) - (result.price * result.amount)
+          profit: (sellResult.price*sellResult.amount) - (result.price*result.amount)
         }
         dashboard.push(logItem)
-        showDashboard()
+        showDashboard()        
       });
     })
   }
@@ -96,7 +98,7 @@ const run = () => {
 
   config.map((item) => {
     tick(item, binanceClient);
-    setInterval(tick, item.tickInterval, item, binanceClient);
+    //setInterval(tick, item.tickInterval, item, binanceClient);
   });
 };
 
