@@ -6,11 +6,15 @@ const dashboard = [];
 
 const showDashboard = () => {
   console.log("**DASHBOARD**", dashboard)
-  let totalPrice = 0;
-  dashboard.map((item) => {
-    totalPrice += item.profit;
+  let totalProfit = 0;
+  let originalAmout = 1;
+  dashboard.map((item, index) => {
+    if(index==0){
+      originalAmout = item.buyPrice * item.buyQuantity;
+    }
+    totalProfit += item.profit;
   })
-  console.log("**TOTAL PROFIT**", totalPrice)
+  console.log("**TOTAL PROFIT**", totalProfit, " @ ", (totalProfit*100/originalAmout))
 }
 
 const tick = async (config, binanceClient) => {
@@ -64,9 +68,9 @@ const run = () => {
     {
       asset: "DOGE", // this is the target coin
       base: "USDT", // this is our base coin 
-      allocation: 10.75,     // amount in base currency for which market buy order will be placed
+      allocation: 18,     // amount in base currency for which market buy order will be placed
       spread: 0.4,         // Percentage to book profit, based on which limit sell order will be placed
-      tickInterval: 0.5 * 60 * 1000  // 10 mins, Duration between each tick, in milliseconds
+      tickInterval: 0.1 * 60 * 1000  // 10 mins, Duration between each tick, in milliseconds
     },
     // {
     //   asset: "TRX", // this is the target coin
